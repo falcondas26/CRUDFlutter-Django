@@ -15,8 +15,37 @@ jobs:
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v2
 
+      # Validacion de docker compose
+      - name: Validate docker-compose
+        run: docker compose config
+
       - name: Build and start containers
         run: docker compose up --build -d
 
-      - name: Check running containers
-        run: docker ps -a
+      # El backend responde en /api/Event? 
+      - name: Test backend API
+        run: |
+          for i in {1..10}; do
+            if curl -sSf http://localhost:8000/api/Event > /dev/null; then
+              echo "Backend is up and responding"
+              exit 0
+            fi
+            echo "Backend not ready yet... retrying ($i/10)"
+            sleep 5
+          done
+          echo "Backend did not respond in time"
+          exit 1
+
+      # Probar que el frontend responde en puerto 80
+      - name: Test frontend
+        run: |
+          for i in {1..10}; do
+            if curl -sSf http://localhost:80 > /dev/null; then
+              echo "Frontend is up and responding"
+              exit 0
+            fi
+            echo "Frontend not ready yet... retrying ($i/10)"
+            sleep 5
+          done
+          echo "Frontend did not respond in time"
+          exit 1
