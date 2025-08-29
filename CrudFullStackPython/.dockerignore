@@ -1,0 +1,7 @@
+venv
+.env
+*.md
+db.sqlite3
+.dockerignore
+__pycache__/
+*.pyc

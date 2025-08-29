@@ -1,0 +1,42 @@
+name: events_app
+description: "Flutter Events App - Social Events Module"
+publish_to: 'none'
+
+version: 1.0.0+1
+
+environment:
+  sdk: ^3.9.0
+
+dependencies:
+  flutter:
+    sdk: flutter
+  
+  # State Management
+  provider: ^6.1.2
+  
+  # HTTP requests (prepared for backend integration)
+  http: ^1.2.1
+  
+  # Date formatting
+  intl: ^0.19.0
+  
+  # Loading indicators
+  flutter_spinkit: ^5.2.0
+  
+  # Maps (for location display)
+  url_launcher: ^6.2.4
+  
+  cupertino_icons: ^1.0.8
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^5.0.0
+
+flutter:
+  uses-material-design: true
+  
+  # Assets for mock data
+  assets:
+    - assets/data/
+    - assets/images/
