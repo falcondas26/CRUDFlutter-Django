@@ -49,3 +49,16 @@ jobs:
           done
           echo "Frontend did not respond in time"
           exit 1
+      
+      # Verificar que la API devuelve JS correcto
+      - name: Validate backend JSON response
+        run: |
+          response=$(curl -s http://localhost:8000/api/Event)
+
+          # Validar que existe "pagination" y "events"
+          echo "$response" | jq -e '.pagination.count' > /dev/null || (echo "No pagination.count field" && exit 1)
+          echo "$response" | jq -e '.events[0].id' > /dev/null || (echo "No events[0].id field" && exit 1)
+          echo "$response" | jq -e '.events[0].titulo' > /dev/null || (echo "No events[0].titulo field" && exit 1)
+          echo "$response" | jq -e '.events[0].location.lat' > /dev/null || (echo "No events[0].location.lat field" && exit 1)
+
+          echo "JSON response structure is valid"
